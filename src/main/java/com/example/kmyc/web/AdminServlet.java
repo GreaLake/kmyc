@@ -93,11 +93,6 @@ public class AdminServlet extends BaseServlet {
     }
 
     public void listAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
         // 调用业务层方法来查询数据
         List<Admin> admins = adminService.listAdmin();
         Result result = new Result(200, admins, "/listAdmin");

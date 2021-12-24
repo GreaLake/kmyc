@@ -29,6 +29,7 @@ public class InformationServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Boolean flag = informationService.insertInformation((String) info.get("title"),
                 (String) info.get("content"),Long.valueOf(info.get("inputer").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/saveInformation");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -39,6 +40,7 @@ public class InformationServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Boolean flag = informationService.updateInformation(Long.valueOf(info.get("id").toString()),
                 (String) info.get("title"),(String) info.get("content"));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/updateInformation");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -48,6 +50,7 @@ public class InformationServlet extends BaseServlet {
         info = getParam4Service(request);
         // 调用业务层方法来录入数据
         Boolean flag = informationService.deleteInformation(Long.valueOf(info.get("id").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/deleteInformation");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -59,6 +62,7 @@ public class InformationServlet extends BaseServlet {
         Page<Information> informationPage = informationService
                 .listInformationByPage(Integer.valueOf(info.get("page").toString()),
                         Integer.valueOf(info.get("size").toString()));
+        // 封装成返回结果
         Result result = new Result(200,informationPage,"/listInformation");
         // 将输出结果序列化
         mapper4Json(response,result);

@@ -32,6 +32,7 @@ public class RegionServlet extends BaseServlet {
         Boolean flag = regionService.insertRegion((String) info.get("name"),
                 Long.valueOf(info.get("father").toString()),
                 Long.valueOf(info.get("inputer").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/saveRegion");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -42,6 +43,7 @@ public class RegionServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Boolean flag = regionService.updateRegion(Long.valueOf(Long.valueOf(info.get("id").toString())),
                 (String) info.get("name"),Long.valueOf(info.get("father").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/updateRegion");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -51,6 +53,7 @@ public class RegionServlet extends BaseServlet {
         info = getParam4Service(request);
         // 调用业务层方法来录入数据
         Boolean flag = regionService.deleteRegion(Long.valueOf(info.get("id").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/deleteRegion");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -61,6 +64,7 @@ public class RegionServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         List<Region> regions = regionService.listRegionByFather(Long.
                 valueOf(info.get("father").toString()));
+        // 封装成返回结果
         Result result = new Result(200, regions, "/listRegion");
         // 将输出结果序列化
         mapper4Json(response,result);

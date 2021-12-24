@@ -30,6 +30,7 @@ public class StoryServlet extends BaseServlet {
         Boolean flag = storyService.insertStory((String) info.get("title"),
                 (String) info.get("content"), Long.valueOf(info.get("inputer").toString()),
                 Long.valueOf(info.get("image").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/saveStory");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -40,6 +41,7 @@ public class StoryServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Boolean flag = storyService.updateStory(Long.valueOf(info.get("id").toString()),
                 (String) info.get("title"),(String) info.get("content"));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/updateStory");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -49,6 +51,7 @@ public class StoryServlet extends BaseServlet {
         info = getParam4Service(request);
         // 调用业务层方法来录入数据
         Boolean flag = storyService.deleteStory(Long.valueOf(info.get("id").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/deleteStory");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -59,6 +62,7 @@ public class StoryServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Page<Story> storyPage = storyService.listStoryByPage(Integer.valueOf(info.get("page").toString()),
                 Integer.valueOf(info.get("size").toString()));
+        // 封装成返回结果
         Result result = new Result(200,storyPage,"/listStoryByPage");
         // 将输出结果序列化
         mapper4Json(response,result);

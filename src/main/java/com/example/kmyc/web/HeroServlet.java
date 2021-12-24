@@ -49,6 +49,7 @@ public class HeroServlet extends BaseServlet {
                 (String) info.get("politic"),(String) info.get("troop"),
                 (String) info.get("post"),(Long) info.get("region"),
                 (Date) info.get("born"),(Date) info.get("sacrifice"));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/updateHero");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -58,6 +59,7 @@ public class HeroServlet extends BaseServlet {
         info = getParam4Service(request);
         // 调用业务层方法来修改数据
         Boolean flag = heroService.deleteHero(Long.valueOf(info.get("id").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/deleteHero");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -70,6 +72,7 @@ public class HeroServlet extends BaseServlet {
         ObjectMapper mapper = new ObjectMapper();
         // 调用业务层方法来查询数据
         List<Hero> heroes = heroService.listHero((Long) info.get("id"));
+        // 封装成返回结果
         Result result = new Result(200, heroes, "/listHero");
         // 将输出结果序列化
         mapper4Json(response,result);

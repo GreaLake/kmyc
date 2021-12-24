@@ -50,18 +50,12 @@ public class NoticeServlet extends BaseServlet {
         info = getParam4Service(request);
         // 调用业务层方法来录入数据
         Boolean flag = noticeService.deleteNotice(Long.valueOf(info.get("id").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/deleteNotice");
         // 将输出结果序列化
         mapper4Json(response,result);
     }
     public void listNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
         // 调用业务层方法来录入数据
         List<Notice> notices = noticeService.listNotice();
         Result result = new Result(200, notices, "/listNotice");

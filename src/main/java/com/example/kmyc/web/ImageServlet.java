@@ -31,6 +31,7 @@ public class ImageServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Boolean flag = imageService.insertImage((String) info.get("name"),
                 (String) info.get("path"),Long.parseLong(info.get("inputer").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/saveImage");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -41,6 +42,7 @@ public class ImageServlet extends BaseServlet {
         // 调用业务层方法来录入数据
         Boolean flag = imageService.updateImage(Long.parseLong(info.get("id").toString()),
                 (String) info.get("name"),(String) info.get("path"));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/updateImage");
         // 将输出结果序列化
         mapper4Json(response,result);
@@ -50,18 +52,12 @@ public class ImageServlet extends BaseServlet {
         info = getParam4Service(request);
         // 调用业务层方法来录入数据
         Boolean flag = imageService.deleteImage(Long.parseLong(info.get("id").toString()));
+        // 封装成返回结果
         Result result = new Result(200,flag,"/deleteImage");
         // 将输出结果序列化
         mapper4Json(response,result);
     }
     public void listImage(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
         // 调用业务层方法来录入数据
         List<Image> images = imageService.listImage();
         Result result = new Result(200,images,"/listImage");
