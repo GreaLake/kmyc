@@ -1,7 +1,6 @@
 package com.example.kmyc.dao.impl;
 
 import com.example.kmyc.dao.InformationDao;
-import com.example.kmyc.domain.Image;
 import com.example.kmyc.domain.Information;
 import com.example.kmyc.utils.DruidUtils;
 

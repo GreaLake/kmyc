@@ -24,56 +24,35 @@ import java.util.Map;
 @WebServlet("/notice/*")
 public class NoticeServlet extends BaseServlet {
     private NoticeService noticeService = new NoticeServiceImpl();
+    Map<String,Object> info = null;
     public void saveNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = noticeService.insertNotice((String) map.get("content"),Long.parseLong(map.get("inputer").toString()));
+        Boolean flag = noticeService.insertNotice((String) info.get("content"),
+                Long.parseLong(info.get("inputer").toString()));
         Result result = new Result(200,flag,"/saveNotice");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
     public void updateNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = noticeService.updateNotice(Long.valueOf(map.get("id").toString()),(String) map.get("content"));
+        Boolean flag = noticeService.updateNotice(Long.valueOf(info.get("id").toString()),
+                (String) info.get("content"));
         Result result = new Result(200,flag,"/updateNotice");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
     public void deleteNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = noticeService.deleteNotice(Long.valueOf(map.get("id").toString()));
+        Boolean flag = noticeService.deleteNotice(Long.valueOf(info.get("id").toString()));
         Result result = new Result(200,flag,"/deleteNotice");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
     public void listNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 接收参数
@@ -83,12 +62,10 @@ public class NoticeServlet extends BaseServlet {
         // 反序列化，把json数据转换成object
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
         // 调用业务层方法来录入数据
         List<Notice> notices = noticeService.listNotice();
+        Result result = new Result(200, notices, "/listNotice");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(notices);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
 }

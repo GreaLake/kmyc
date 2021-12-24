@@ -52,5 +52,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.12" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.50" level="project" />
   </component>
 </module>

@@ -1,8 +1,6 @@
 package com.example.kmyc.dao.impl;
 
 import com.example.kmyc.dao.StoryDao;
-import com.example.kmyc.domain.Information;
-import com.example.kmyc.domain.Region;
 import com.example.kmyc.domain.Story;
 import com.example.kmyc.utils.DruidUtils;
 

@@ -5,12 +5,10 @@ import com.example.kmyc.result.Result;
 import com.example.kmyc.service.CarouselService;
 import com.example.kmyc.service.impl.CarouselServiceImpl;
 import com.example.kmyc.web.base.BaseServlet;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -24,64 +22,49 @@ import java.util.Map;
 @WebServlet("/carousel/*")
 public class CarouselServlet extends BaseServlet {
     private CarouselService carouselService = new CarouselServiceImpl();
-
-    public void save(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Map<String,Object> info = null;
+    public void saveCarousel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 反序列化，把json数据格式转换成object格式
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
+        info = getParam4Service(request);
         // 调用业务层方法录入数据
-        Boolean flag = carouselService.insertCarousel((String) map.get("name"), (String) map.get("group"), Long.valueOf(map.get("image").toString()), Long.valueOf(map.get("inputer").toString()));
+        Boolean flag = carouselService.insertCarousel((String) info.get("name"),
+                (String) info.get("group"), Long.valueOf(info.get("image").toString()),
+                Long.valueOf(info.get("inputer").toString()));
         // 封装成返回结果
-        Result result = new Result(200,flag,"/save");
+        Result result = new Result(200,flag,"/saveCarousel");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
-    public void update(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        // 获取字符流读取类
-        BufferedReader reader = request.getReader();
-        // 反序列化，把josn格式转换成Object格式
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
+    public void updateCarousel(HttpServletRequest request , HttpServletResponse response) throws IOException {
+        // 接收参数
+        info = getParam4Service(request);
         // 调用业务层修改数据
-        Boolean flag = carouselService.updateCarousel(Long.valueOf(map.get("id").toString()), (String) map.get("name"), (String) map.get("group"), Long.valueOf(map.get("image").toString()));
+        Boolean flag = carouselService.updateCarousel(Long.valueOf(info.get("id").toString()),
+                (String) info.get("name"), (String) info.get("group"),
+                Long.valueOf(info.get("image").toString()));
         // 封装成返回结果
-        Result result = new Result(200,flag,"/update");
+        Result result = new Result(200,flag,"/updateCarousel");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
-    public void delete(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        // 获取字符流读取类
-        BufferedReader reader = request.getReader();
-        // 反序列化，把josn格式转换成Object格式
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
+    public void deleteCarousel(HttpServletRequest request , HttpServletResponse response) throws IOException {
+        // 接收参数
+        info = getParam4Service(request);
         // 调用业务层修改数据
-        Boolean flag = carouselService.deleteCarousel(Long.valueOf(map.get("id").toString()));
+        Boolean flag = carouselService.deleteCarousel(Long.valueOf(info.get("id").toString()));
         // 封装成返回结果
-        Result result = new Result(200,flag,"/delete");
+        Result result = new Result(200,flag,"/deleteCarousel");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
     public void listByGroup(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        // 获取字符流读取类
-        BufferedReader reader = request.getReader();
-        // 反序列化，把josn格式转换成Object格式
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
+        // 接收参数
+        info = getParam4Service(request);
         // 调用业务层查询数据
-        List<Carousel> carousels = carouselService.listCarouselByGroup(map.get("group").toString());
+        List<Carousel> carousels = carouselService.listCarouselByGroup(info.get("group").toString());
+        // 封装成返回结果
+        Result result = new Result(200, carousels, "/listByGroup");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(carousels);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response, result);
     }
 }

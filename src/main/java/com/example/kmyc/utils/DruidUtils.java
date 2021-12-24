@@ -13,8 +13,11 @@ import java.util.Properties;
  * 数据库连接工具类
  */
 public class DruidUtils {
-    //1.定义成员变量 Datasource
-    private static DataSource ds = null ;
+    /**
+     * 1.定义成员变量 Datasource
+     */
+    private static DataSource ds = null;
+
     static {
         try {
             //加载配置文件
@@ -29,6 +32,7 @@ public class DruidUtils {
 
     /**
      * 获取连接，抛出异常，可以提醒用户
+     *
      * @return
      * @throws SQLException
      */
@@ -38,33 +42,37 @@ public class DruidUtils {
 
     /**
      * 获取连接池
+     *
      * @return
      */
-    public static DataSource getDataSource(){
+    public static DataSource getDataSource() {
         return ds;
     }
 
     /**
      * 释放资源
      * 对于Connection连接对象，其实不是关闭连接，而是归还链接
+     *
      * @param rs
      * @param stmt
      * @param conn
      */
-    public static void close(ResultSet rs , Statement stmt , Connection conn){
-        if (rs != null){
+    public static void close(ResultSet rs, Statement stmt, Connection conn) {
+        if (rs != null) {
             try {
                 rs.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }if (stmt != null){
+        }
+        if (stmt != null) {
             try {
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }if (conn != null){
+        }
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException e) {
@@ -75,10 +83,11 @@ public class DruidUtils {
 
     /**
      * 释放资源，针对增删改语句，DML管理语句
+     *
      * @param stmt
      * @param conn
      */
-    public static void close(Statement stmt ,Connection conn){
-        close(null,stmt,conn);
+    public static void close(Statement stmt, Connection conn) {
+        close(null, stmt, conn);
     }
 }

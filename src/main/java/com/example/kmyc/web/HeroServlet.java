@@ -25,71 +25,53 @@ import java.util.Map;
 @WebServlet("/hero/*")
 public class HeroServlet extends BaseServlet {
     private HeroService heroService = new HeroServiceImpl();
-    public void saveAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Map<String,Object> info = null;
+    public void saveHero(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = heroService.insertHero((String) map.get("name"),(String) map.get("sex"),(String) map.get("politic"),(String) map.get("troop"),(String) map.get("post"),Long.valueOf( map.get("region").toString()),(Date) map.get("born"),(Date) map.get("sacrifice"),Long.valueOf(map.get("inputer").toString()));
-        Result result = new Result(200,flag,"/save");
+        Boolean flag = heroService.insertHero((String) info.get("name"),
+                (String) info.get("sex"),(String) info.get("politic"),
+                (String) info.get("troop"),(String) info.get("post"),
+                Long.valueOf( info.get("region").toString()),
+                (Date) info.get("born"),(Date) info.get("sacrifice"),
+                Long.valueOf(info.get("inputer").toString()));
+        Result result = new Result(200,flag,"/saveHero");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
-    public void updateAdmin(HttpServletRequest request , HttpServletResponse response) throws IOException {
+    public void updateHero(HttpServletRequest request , HttpServletResponse response) throws IOException {
+        // 接收参数
+        info = getParam4Service(request);
+        // 调用业务层方法来修改数据
+        Boolean flag = heroService.updateHero((Long) info.get("id"),
+                (String) info.get("name"), (String) info.get("sex"),
+                (String) info.get("politic"),(String) info.get("troop"),
+                (String) info.get("post"),(Long) info.get("region"),
+                (Date) info.get("born"),(Date) info.get("sacrifice"));
+        Result result = new Result(200,flag,"/updateHero");
+        // 将输出结果序列化
+        mapper4Json(response,result);
+    }
+    public void deleteHero(HttpServletRequest request , HttpServletResponse response) throws IOException {
+        // 接收参数
+        info = getParam4Service(request);
+        // 调用业务层方法来修改数据
+        Boolean flag = heroService.deleteHero(Long.valueOf(info.get("id").toString()));
+        Result result = new Result(200,flag,"/deleteHero");
+        // 将输出结果序列化
+        mapper4Json(response,result);
+    }
+    public void listHero(HttpServletRequest request , HttpServletResponse response) throws IOException {
         // 接收参数
         // 获取字符流 读取类
         BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
         // 反序列化，把json数据转换成object
         ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
-        // 调用业务层方法来录入数据
-        Boolean flag = heroService.updateHero((Long) map.get("id"),(String) map.get("name"),(String) map.get("sex"),(String) map.get("politic"),(String) map.get("troop"),(String) map.get("post"),(Long) map.get("region"),(Date) map.get("born"),(Date) map.get("sacrifice"));
-        Result result = new Result(200,flag,"/update");
-        // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
-    }
-    public void deleteAdmin(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
-        // 调用业务层方法来录入数据
-        Boolean flag = heroService.deleteHero(Long.valueOf(map.get("id").toString()));
-        Result result = new Result(200,flag,"/delete");
-        // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
-    }
-    public void listAdmin(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
         // 调用业务层方法来查询数据
-        List<Hero> heroes = heroService.listHero((Long) map.get("id"));
+        List<Hero> heroes = heroService.listHero((Long) info.get("id"));
+        Result result = new Result(200, heroes, "/listHero");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(heroes);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
 }

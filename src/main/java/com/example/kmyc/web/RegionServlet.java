@@ -24,70 +24,45 @@ import java.util.Map;
 @WebServlet("/region/*")
 public class RegionServlet extends BaseServlet {
     private RegionService regionService = new RegionServiceImpl();
+    Map<String,Object> info = null;
     public void saveRegion(HttpServletRequest request , HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = regionService.insertRegion((String) map.get("name"),Long.valueOf(map.get("father").toString()),Long.valueOf(map.get("inputer").toString()));
+        Boolean flag = regionService.insertRegion((String) info.get("name"),
+                Long.valueOf(info.get("father").toString()),
+                Long.valueOf(info.get("inputer").toString()));
         Result result = new Result(200,flag,"/saveRegion");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
     public void updateRegion(HttpServletRequest request , HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = regionService.updateRegion(Long.valueOf(Long.valueOf(map.get("id").toString())),(String) map.get("name"),Long.valueOf(map.get("father").toString()));
+        Boolean flag = regionService.updateRegion(Long.valueOf(Long.valueOf(info.get("id").toString())),
+                (String) info.get("name"),Long.valueOf(info.get("father").toString()));
         Result result = new Result(200,flag,"/updateRegion");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
     public void deleteRegion(HttpServletRequest request , HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        Boolean flag = regionService.deleteRegion(Long.valueOf(map.get("id").toString()));
+        Boolean flag = regionService.deleteRegion(Long.valueOf(info.get("id").toString()));
         Result result = new Result(200,flag,"/deleteRegion");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(result);
-        // 输出结果
-        response.getWriter().print(json);
-    }public void lsitRegion(HttpServletRequest request , HttpServletResponse response) throws IOException {
+        mapper4Json(response,result);
+    }
+    public void listRegionByFather(HttpServletRequest request , HttpServletResponse response) throws IOException {
         // 接收参数
-        // 获取字符流 读取类
-        BufferedReader reader = request.getReader();
-        // 定义线程可变的字符串
-        // 反序列化，把json数据转换成object
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> map = mapper.readValue(reader,Map.class);
-        System.out.println(map);
+        info = getParam4Service(request);
         // 调用业务层方法来录入数据
-        List<Region> regions = regionService.listRegionByFather(Long.valueOf(map.get("father").toString()));
+        List<Region> regions = regionService.listRegionByFather(Long.
+                valueOf(info.get("father").toString()));
+        Result result = new Result(200, regions, "/listRegion");
         // 将输出结果序列化
-        String json = mapper.writeValueAsString(regions);
-        // 输出结果
-        response.getWriter().print(json);
+        mapper4Json(response,result);
     }
 }
