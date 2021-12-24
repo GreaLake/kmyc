@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="kmyc:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>false</exploded>
+        <module>kmyc</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="archive" name="kmyc-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="kmyc:war exploded" />
+    </root>
+  </artifact>
+</component>
